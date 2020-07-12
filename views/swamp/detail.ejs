@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header");%>
+<body>
+<%- include("../menu");%>
+  <!-- Material input -->
+<div class="md-form">
+  <input type="text" id="linkname" value="<%=result.linkname %>" class="form-control" readonly>
+  <label for="linkname">Input LinkName</label>
+</div>
+<div class="md-form">
+  <input type="text" id="linkurl" value="<%=result.linkurl %>" class="form-control" readonly>
+  <label for="linkurl">Input LinkUrl</label>
+</div>
+  <!-- Material input -->
+</div>
+<button type="button" class="btn btn-primary" onclick="location.href='/api/swamp'">목록</button>
+<button type="button" class="btn btn-primary" onclick="location.href='/api/swamp/<%=result._id%>/edit'">수정</button>
+<button type="button" class="btn btn-primary" id="deleteBtn">삭제</button>
+<%- include("../footer");%>
+<script>
+  $(function () {
+    // 삭제
+    $("#deleteBtn").on("click", () => {
+      const result = confirm("삭제하시겠습니까?");
+      if (result) {
+        $.ajax({
+          url: "/api/swamp/<%=result._id%>",
+          type: "DELETE"
+        }).done(() => {
+          location.href ="/api/swamp";
+        }).fail((request, status, error) => {
+          alert(request.responseText);
+        })
+      }
+    })
+  })
+</script>
+</body>
+</html>

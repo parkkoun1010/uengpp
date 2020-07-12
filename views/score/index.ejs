@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include("../header");%>
+
+<body onload="printClock()">
+
+<%- include("../menu");%>
+<div class="container3">
+  <h3 style="margin-top:30px;"><%=user.name%> 님의 오늘은 어떠셨나요?</h3>
+    <div style="border:10px solid #ffffff; width:600px; height:80px; line-height:50px; color:#000000;font-size:30px; text-align:center;" id="clock"></div>
+    <div id="cal" style="width:600px; font-size:30px; text-align:center;"></div>
+    <div class="botbox">
+      <form id="createForm">
+        <div class="leftbox" id="leftbox">
+          <p>
+          <button type="button" id="send" class="btn btn-primary">전송</button>
+          <button type="button" id="add" class="btn btn-primary">추가</button>
+          </p>
+            <!-- Material input -->
+          <div class="md-form">
+            <input type="text" id="subject1" class="form-control" required>
+            <label for="subject1">Input Subject</label>
+          </div>
+          <div class="md-form">
+            <input type="number" id="time1" min=0 class="form-control" required>
+            <label for="time1">Input time</label>
+          </div>
+            <!-- Material input -->
+          <div class="md-form">
+            <input type="text" id="subject2" class="form-control" required>
+            <label for="subject2">Input Subject</label>
+          </div>
+          <div class="md-form">
+            <input type="number" id="time2"  min=0 class="form-control" required>
+            <label for="time2">Input time</label>
+          </div>
+          <div class="md-form">
+            <input type="text" id="subject3" class="form-control" required>
+            <label for="subject3">Input subject</label>
+          </div>
+          <div class="md-form">
+            <input type="number" id="time3"  min=0 class="form-control" required>
+            <label for="time3">Input time</label>
+          </div>
+        </div>
+      </form>
+      <div class="rightbox">
+        <ul id="bar">
+      </ul>
+      </div>
+    </div>
+</div>
+<!-- Jumbotron -->
+<!-- Jumbotron -->
+<%- include("../footer");%>
+<script>
+  function printClock() {            // 출력할 장소 선택
+    var currentDate = new Date();                                     // 현재시간
+    var calendar = currentDate.getFullYear() + "-" + (currentDate.getMonth()+1) + "-" + currentDate.getDate() // 현재 날짜
+    var amPm = 'AM'; // 초기값 AM
+    var currentHours = addZeros(currentDate.getHours(),2); 
+    var currentMinute = addZeros(currentDate.getMinutes() ,2);
+    var currentSeconds =  addZeros(currentDate.getSeconds(),2);
+    
+    if(currentHours >= 12){ // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
+    	amPm = 'PM';
+    	currentHours = addZeros(currentHours - 12,2);
+      amPm = '<span style="color:#8a2ae3; font-size:20px;">'+amPm+'</span>'
+    }else{
+      amPm = 'AM';
+      amPm = '<span style="color:#ff1494; font-size:20px;">'+amPm+'</span>'
+    }
+    $('#clock').html(currentHours+":"+currentMinute+":"+currentSeconds + "  "+amPm); //날짜를 출력해 줌
+    $('#cal').html(calendar);
+    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
+}
+
+function addZeros(num, digit) { // 자릿수 맞춰주기
+	  var zero = '';
+	  num = num.toString();
+	  if (num.length < digit) {
+	    for (i = 0; i < digit - num.length; i++) {
+	      zero += '0';
+	    }
+	  }
+	  return zero + num;
+}
+
+const sarr = new Array();
+const narr = new Array();
+var time = 0;
+var score;
+var count = 4;
+$("#send").on('click',() => {
+  console.log("ㅅㅂ");
+  if($("#subject1").val()&&$('#time1').val()
+  &&$("#subject2").val()&&$('#time2').val()&&
+  $("#subject3").val()&&$('#time3').val()){
+  time=0;
+  $('#bar').empty();
+  const length = $("#leftbox div").length-1;
+  for(var i=1; i<=length/2; i++){
+    sarr[i] = $('#subject'+i).val();
+    narr[i] = $('#time'+i).val();
+    time+=parseInt(narr[i]);
+  }
+  for(var i=1; i<=length/2; i++){
+    $("#bar").append(`<li id="others">
+          <div class="top">
+          </div>
+          <div class="bottom" style="height:`+((600)*narr[i]/time)+`px;">
+            <div class="infobox">
+                <h3 style=" font-size:15px;">`+sarr[i]+`</h3>
+                <p>`+narr[i]+`</p>
+            </div>
+          </div>
+      </li>`); 
+  }
+  score=parseInt(time,10);
+  $.ajax({
+          url: "/api/score",
+          type: "POST",
+          data: { score },
+          success: (data) => {
+             if(data) alert(data);
+              }
+        })
+        .fail((request, status, error) => {
+          console.log(error);
+          alert(error);
+        });
+  }
+  else{
+    alert('값을 입력해주세요');
+  }
+});
+$("#add").on('click',() => {
+  $("#leftbox").append(`<div class="md-form">
+            <input type="text" id="subject`+count+`" class="form-control" required>
+            <label for="subject`+count+`">Input subject</label>
+          </div>
+          <div class="md-form">
+            <input type="number" id="time`+count+`"  min=0 class="form-control" required>
+            <label for="time`+count+`">Input time</label>
+          </div>`);
+          count++;
+});
+</script>
+</body>
+</html>

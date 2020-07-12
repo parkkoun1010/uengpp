@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header");%>
+<body>
+<%- include("../menu");%>
+  <!-- Material input -->
+<div class="md-form">
+  <input type="text" id="subject" value="<%=result.subject %>" class="form-control" readonly>
+  <label for="subject">Subject</label>
+</div>
+  <!-- Material input -->
+<div class="md-form">
+  <input type="text" id="starttime" value="<%=result.starttime %>" class="form-control" readonly>
+  <label for="starttime">Starttime</label>
+</div>
+<div class="md-form">
+  <input type="text" id="finishtime" value="<%=result.finishtime %>" class="form-control" readonly>
+  <label for="finishtime">Finishtime</label>
+</div>
+<div class="md-form">
+  <input type="text" id="requiredtime" value="<%=result.requiredtime %>" class="form-control" readonly>
+  <label for="requiredtime">Requiredtime</label>
+</div>
+<button type="button" class="btn btn-primary" onclick="location.href='/api/plan'">목록</button>
+<button type="button" class="btn btn-primary" onclick="location.href='/api/plan/<%=result._id%>/edit'">수정</button>
+<button type="button" class="btn btn-primary" id="deleteBtn">삭제</button>
+<%- include("../footer");%>
+<script>
+  $(function () {
+    // 삭제
+    $("#deleteBtn").on("click", () => {
+      const result = confirm("삭제하시겠습니까?");
+      if (result) {
+        $.ajax({
+          url: "/api/plan/<%=result._id%>",
+          type: "DELETE"
+        }).done(() => {
+          location.href ="/api/plan";
+        }).fail((request, status, error) => {
+          alert(request.responseText);
+        })
+      }
+    })
+  })
+</script>
+</body>
+</html>

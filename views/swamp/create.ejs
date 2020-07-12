@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header");%>
+<body>
+<%- include("../menu");%>
+  <form id="createForm">
+    <!-- Material input -->
+  <div class="md-form">
+    <input type="text" id="linkname" class="form-control" required>
+    <label for="linkname">Input LinkName</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="linkurl" class="form-control" required>
+    <label for="linkurl">Input LinkUrl</label>
+  </div>
+  </div>
+  <button type="submit" class="btn btn-primary">저장</button>
+  </form>
+  <%- include("../footer");%>
+  <script>
+    $(function(){
+      $("#createForm").submit((event) => {
+        event.preventDefault();
+        //등록
+        const linkname = $("#linkname").val();
+        const linkurl = $("#linkurl").val();
+        
+        $.ajax({
+          url: "/api/swamp",
+          type: "POST",
+          data: { linkname, linkurl },
+        })
+        .done(() => {
+          location.href="/api/swamp";
+        })
+        .fail((request, status, error) => {
+          alert(request.responseText);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

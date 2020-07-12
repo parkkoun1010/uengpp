@@ -1,0 +1,54 @@
+<!--Navbar -->
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-dark" style="background-color:black;">
+  <a class="navbar-brand" href="/">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+    aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/api/aboutus">소개</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/api/plan">일정 작성</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/api/timer">타이머</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/api/swamp">즐겨찾기</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/api/diary">일기 작성</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/api/score">오늘의 시간 소모 평가</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/api/score/ranking">랭킹</a>
+      </li>
+    </ul>
+    <!-- Links -->
+    <% if (user === null) { %>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/api/user/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/api/user/signup">Sign up</a>
+      </li>
+    </ul>
+    <% } else {%>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link"><%= user.name %></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/api/user/logout">Logout</a>
+      </li>
+    </ul>
+    <% } %>
+  </div>
+</nav>
+<!--/.Navbar -->

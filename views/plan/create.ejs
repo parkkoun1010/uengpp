@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header");%>
+<body>
+<%- include("../menu");%>
+  <form id="createForm">
+    <!-- Material input -->
+  <div class="md-form">
+    <input type="text" id="subject" class="form-control" required>
+    <label for="subject">Input Subject</label>
+  </div>
+    <!-- Material input -->
+  <div class="md-form">
+    <input type="text" id="starttime" class="form-control" required>
+    <label for="starttime">Input Starttime</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="finishtime" class="form-control" required>
+    <label for="finishtime">Input Finishtime</label>
+  </div>
+  <div class="md-form">
+    <input type="text" placeholder="시, 분 단위까지 써주세요" id="requiredtime" class="form-control" required>
+    <label for="requiredtime">Input Requiredtime</label>
+  </div>
+  <button type="submit" class="btn btn-primary">저장</button>
+  </form>
+  <%- include("../footer");%>
+  <script>
+    $(function(){
+      $("#createForm").submit((event) => {
+        
+        
+        //등록
+        const subject = $("#subject").val();
+        const starttime = $("#starttime").val();
+        const finishtime = $("#finishtime").val();
+        const requiredtime = $("#requiredtime").val();
+        
+        $.ajax({
+          url: "/api/plan",
+          type: "POST",
+          data: { subject, starttime, finishtime, requiredtime }, 
+        })
+        .done(() => {
+          location.href="/api/plan";
+        })
+        .fail((request, status, error) => {
+          alert(request.responseText);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

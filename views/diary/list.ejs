@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header");%>
+<%
+function getdaykor(num) { // 자릿수 맞춰주기
+    switch(num){
+        case 1: return "월"; break;
+        case 2: return "화"; break;
+        case 3: return "수"; break;
+        case 4: return "목"; break;
+        case 5: return "금"; break;
+        case 6: return "토"; break;
+        case 0: return "일"; break;
+        default: return "<<오류발생>>";
+    }
+}
+%>
+<body>
+<%- include("../menu");%>
+<button type="button" class="btn btn-primary" onclick="location.href='/api/diary/new'">등록</button>
+<div class="row row-cols-1 row-cols-md-3">
+<% result.forEach(diary => { %>
+  <div class="col mb-4">
+    <!-- Card -->
+    <div class="card">
+
+      <!--Card content-->
+      <div class="card-body">
+
+        <!--Title-->
+        <h4 class="card-title"><%= diary.created.getFullYear()+"년 "+diary.created.getMonth()+"월"+diary.created.getDate()+"일 "+getdaykor(diary.created.getDay())+"요일" %></h4>
+        <!--Text-->
+        <p class="card-text"><%= diary.title %></p>
+        <!--Text-->
+        <p class="card-text"><%= diary.content.substring(0,30)+"..." %></p>
+        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+        <button type="button" class="btn btn-light-blue btn-md" onclick="location.href='/api/diary/<%=diary._id%>'">수정</button>
+
+      </div>
+    </div>
+    <!-- Card -->
+  </div>
+  <%})%>
+</div>
+<%- include("../footer");%>
+</body>
+</html>

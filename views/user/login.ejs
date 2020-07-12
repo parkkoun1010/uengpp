@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header");%>
+<body>
+<%- include("../menu");%>
+  <!-- Material form register -->
+  <div class="card">
+    <h5 class="card-header info-color white-text text-center py-4">
+        <strong>Log In</strong>
+    </h5>
+    <form id="loginForm" class="text-center border border-light p-5" action="#!">
+      <!-- Email -->
+      <input type="email" id="email" class="form-control mb-4" placeholder="E-mail">
+
+      <!-- Password -->
+      <input type="password" id="password" class="form-control mb-4" placeholder="Password">
+
+      <!-- Sign in button -->
+      <button class="btn btn-info btn-block my-4" type="submit">Log in</button>
+
+      <!-- Register -->
+      <p>Not a member?
+          <a href="">Register</a>
+      </p>
+    </form>
+  </div>
+<%- include("../footer");%>
+  <script>
+    $(function(){
+      $("#loginForm").submit((event) => {
+        event.preventDefault();
+        // 로그인
+        const email = $("#email").val();
+        const password = $("#password").val();
+        
+        $.ajax({
+          url: "/api/user/login",
+          type: "POST",
+          data: { email, password },
+        })
+        .done(() => {
+          alert("로그인 성공");
+          location.href = "/";
+          //location.href="/api/music";
+        })
+        .fail((request, status, error) => {
+          alert(request.responseText);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

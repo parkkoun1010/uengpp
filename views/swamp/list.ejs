@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header");%>
+<body>
+<%- include("../menu");%>
+<button type="button" class="btn btn-primary" onclick="location.href='/api/swamp/new'">등록</button>
+<div class="row row-cols-1 row-cols-md-3">
+<% result.forEach(swamp => { %>
+  <div class="col mb-4">
+    <!-- Card -->
+    <div class="card">
+
+      <!--Card content-->
+      <div class="card-body">
+
+        <!--Title-->
+        <h4 class="card-title"><%= swamp.linkname %></h4>
+        <!--Text-->
+        <button type="button" class="btn btn-light-blue btn-md" onclick="window.open('<%=swamp.linkurl%>')">바로가기</button>
+        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+        <button type="button" class="btn btn-light-blue btn-md" onclick="location.href='/api/swamp/<%=swamp._id%>'">수정</button>
+
+      </div>
+    </div>
+    <!-- Card -->
+  </div>
+  <%})%>
+</div>
+<%- include("../footer");%>
+</body>
+</html>

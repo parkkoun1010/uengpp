@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include("header");%>
+
+<body onload="printClock()">
+
+<%- include("menu");%>
+<div class="container rgba">
+  <h1>당신의 오늘은?</h1>
+    <div style="border:10px solid #ffffff; width:600px; height:150px; line-height:120px; color:#ffffff;font-size:100px; text-align:center;" id="clock"></div>
+    <div id="cal" style="width:600px; font-size:50px; text-align:center; margin-top:10px"></div>
+    <div style="font-size:50px; text-align:center;">환영합니다! <%=user.name%> 님</div>
+  </div>
+</div>
+<!-- Jumbotron -->
+<!-- Jumbotron -->
+<%- include("footer");%>
+<script>
+  function printClock() {            // 출력할 장소 선택
+    var currentDate = new Date();                                     // 현재시간
+    var calendar = currentDate.getFullYear() + "-" + (currentDate.getMonth()+1) + "-" + currentDate.getDate() // 현재 날짜
+    var amPm = 'AM'; // 초기값 AM
+    var currentHours = addZeros(currentDate.getHours(),2); 
+    var currentMinute = addZeros(currentDate.getMinutes() ,2);
+    var currentSeconds =  addZeros(currentDate.getSeconds(),2);
+    
+    if(currentHours >= 12){ // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
+    	amPm = 'PM';
+    	currentHours = addZeros(currentHours - 12,2);
+      amPm = '<span style="color:#8a2ae3; font-size:50px;">'+amPm+'</span>'
+    }else{
+      amPm = 'AM';
+      amPm = '<span style="color:#ff1494; font-size:50px;">'+amPm+'</span>'
+    }
+    $('#clock').html(currentHours+":"+currentMinute+":"+currentSeconds + "  "+amPm); //날짜를 출력해 줌
+    $('#cal').html(calendar);
+    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
+}
+
+function addZeros(num, digit) { // 자릿수 맞춰주기
+	  var zero = '';
+	  num = num.toString();
+	  if (num.length < digit) {
+	    for (i = 0; i < digit - num.length; i++) {
+	      zero += '0';
+	    }
+	  }
+	  return zero + num;
+}
+
+
+</script>
+</body>
+</html>

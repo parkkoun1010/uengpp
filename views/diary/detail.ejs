@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header");%>
+<body>
+<%- include("../menu");%>
+  <!-- Material input -->
+<div class="md-form">
+    <input type="text" id="title" value="<%=result.title %>"  class="form-control" readonly>
+    <label for="title">제목</label>
+</div>
+<div class="md-form">
+    <textarea style="font-size:20px;" readonly id="content" name="content" rows="20" cols="70" placeholder="추억하고 싶은 기억들을 기록으로 남겨보세요"><%=result.content %></textarea>
+  </div>
+  <!-- Material input -->
+</div>
+<button type="button" class="btn btn-primary" onclick="location.href='/api/diary'">목록</button>
+<button type="button" class="btn btn-primary" onclick="location.href='/api/diary/<%=result._id%>/edit'">수정</button>
+<button type="button" class="btn btn-primary" id="deleteBtn">삭제</button>
+<%- include("../footer");%>
+<script>
+  $(function () {
+    // 삭제
+    $("#deleteBtn").on("click", () => {
+      const result = confirm("삭제하시겠습니까?");
+      if (result) {
+        $.ajax({
+          url: "/api/diary/<%=result._id%>",
+          type: "DELETE"
+        }).done(() => {
+          location.href ="/api/diary";
+        }).fail((request, status, error) => {
+          alert(request.responseText);
+        })
+      }
+    })
+  })
+</script>
+</body>
+</html>

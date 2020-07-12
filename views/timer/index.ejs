@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include("../header");%>
+
+<body>
+
+<%- include("../menu");%>
+<div class="container2">
+		<div id='timerBox' class="timerBox">
+			<div id="time" class="time">00:00:00</div>
+		</div>
+		<div class="btnBox">
+			<i id="startbtn" class="fa fa-play" aria-hidden="true"></i>
+			<i id="pausebtn" class="fa fa-pause" aria-hidden="true"></i>
+			<i id="stopbtn" class="fa fa-stop" aria-hidden="true"></i>
+		</div>
+</div>
+<!-- Jumbotron -->
+<!-- Jumbotron -->
+<%- include("../footer");%>
+<script>
+var time = 0;
+var sign=0;//0 멈춤 1 재생 2 일시정지
+$(document).ready(function(){
+  buttonEvt();
+});
+
+function init(){
+  document.getElementById("time").innerHTML = "00:00:00";
+}
+
+function buttonEvt(){
+  var hour = 0;
+  var min = 0;
+  var sec = 0;
+  var timer;
+
+  // start btn
+  $("#startbtn").on('click',()=>{
+    if(sign!=1){
+      sign=1;
+      if(time == 0){
+        init();
+      }
+      $(".time").css("color","#008b8b");
+      var pos = 0;
+      var id = setInterval(frame, 5);
+      function frame() {
+          if(time==0){
+          if (pos == 50) {
+            clearInterval(id);
+            }
+          else {
+            console.log("func1");
+            pos++;
+            $(".time").css("margin-bottom",pos+'px');
+            $(".time").css("font-size",120+0.4*pos+'px');
+            $(".fa").css("font-size",50-0.4*pos+"px");
+          }
+        }
+        else{
+          clearInterval(id);
+        }
+      }
+      $(".fa").css("color","#40495b");
+      timer = setInterval(function(){
+        time++;
+
+        min = Math.floor(time/60);
+        hour = Math.floor(min/60);
+        sec = time%60;
+        min = min%60;
+
+        var th = hour;
+        var tm = min;
+        var ts = sec;
+        if(th<10){
+          th = "0" + hour;
+        }
+        if(tm < 10){
+          tm = "0" + min;
+        }
+        if(ts < 10){
+          ts = "0" + sec;
+        }
+
+        $("#time").html(th + ":" + tm + ":" + ts);
+      }, 1000);
+    }
+    
+  });
+
+  // pause btn
+  $("#pausebtn").click(function(){
+    if(time != 0&&sign==1){
+      clearInterval(timer);
+      $(".time").css("color","#ce3375");
+      sign=2;
+    }
+  });
+
+  // stop btn
+  $("#stopbtn").on('click',()=>{
+    if(sign!=0&&time!=0){
+      sign=0;
+      
+      var pos2 = 50;
+      var id2 = setInterval(frame2, 5);
+      function frame2() {
+        if (pos2 == 0) {
+          clearInterval(id2);
+          $(".time").css("color","#000000");
+        } else {
+          console.log("asf");
+        pos2--;
+        $(".time").css("margin-bottom",pos2+'px');
+        $(".time").css("font-size",120+0.4*pos2+'px');
+        $(".fa").css("font-size",50-0.4*pos2+"px");
+        }
+      }
+        clearInterval(timer);
+        time = 0;
+        $(".fa").css("color","#0f4c81");
+        init();
+    }
+    
+  });
+
+  /*$("#startbtn").hover(function(){
+      //$("#startbtn").css("color"," #0f4c81")
+      this.style.color = "#0f4c81";
+  });*/
+}
+</script>
+</body>
+</html>
